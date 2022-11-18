@@ -1462,6 +1462,22 @@ static macro_result_t processSetLedTxtCommand(const char* arg1, const char *argE
     }
 }
 
+static macro_result_t processSetLedNumCommand(const char* arg1, const char *argEnd)
+{
+    int16_t time = parseNUM(arg1, argEnd);
+    macro_result_t res = MacroResult_Finished;
+    if (time > 0 && (res = processDelay(time)) == MacroResult_Finished) {
+        LedDisplay_UpdateText();
+        return MacroResult_Finished;
+    } else {
+        int32_t param = parseNUM(NextTok(arg1, argEnd), argEnd);
+        char str[3];
+        IntToStr(param, str, 3);
+        LedDisplay_SetText(3, str);
+        return res;
+    }
+}
+
 static macro_result_t processSetRegCommand(const char* arg1, const char *argEnd)
 {
     uint8_t address = parseNUM(arg1, argEnd);
@@ -2739,6 +2755,9 @@ static macro_result_t processCommand(const char* cmd, const char* cmdEnd)
             }
             else if (TokenMatches(cmd, cmdEnd, "setLedTxt")) {
                 return processSetLedTxtCommand(arg1, cmdEnd);
+            }
+            else if (TokenMatches(cmd, cmdEnd, "setLedNum")) {
+                return processSetLedNumCommand(arg1, cmdEnd);
             }
             else if (TokenMatches(cmd, cmdEnd, "setReg")) {
                 return processSetRegCommand(arg1, cmdEnd);

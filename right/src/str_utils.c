@@ -176,6 +176,14 @@ const char* TokEnd(const char* cmd, const char *cmdEnd)
     return cmd;
 }
 
+void IntToStr(int32_t number, char* text, int length)
+{
+    for (int i=length-1; i>=0; --i) {
+        text[i] = 48 + number % 10;
+        number /= 10;
+    }
+}
+
 const char* NextTok(const char* cmd, const char *cmdEnd)
 {
     while(*cmd > 32 && cmd < cmdEnd)    {

@@ -24,6 +24,7 @@
     const char* NextCmd(const char* cmd, const char *cmdEnd);
     uint8_t CountCommands(const char* text, uint16_t textLen);
     const char* TokEnd(const char* cmd, const char *cmdEnd);
+    void IntToStr(int32_t number, char* text, int length);
     module_id_t ParseModuleId(const char* arg1, const char* cmdEnd);
     navigation_mode_t ParseNavigationModeId(const char* arg1, const char* cmdEnd);
 
