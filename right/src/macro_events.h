@@ -21,6 +21,7 @@
 // Functions:
 
     void MacroEvent_OnInit();
+    void MacroEvent_OnKey(key_state_t *keyState);
     void MacroEvent_OnKeymapChange(uint8_t keymapIdx);
 
 #endif

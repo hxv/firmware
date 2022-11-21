@@ -23,6 +23,7 @@
 #include "layer_switcher.h"
 #include "mouse_controller.h"
 #include "debug.h"
+#include "macro_events.h"
 
 bool TestUsbStack = false;
 static key_action_cached_t actionCache[SLOT_COUNT][MAX_KEY_COUNT_PER_MODULE];
@@ -254,6 +255,7 @@ void ApplyKeyAction(key_state_t *keyState, key_action_cached_t *cachedAction, ke
 
     if (KeyState_ActivatedNow(keyState)) {
         Macros_SignalInterrupt();
+        MacroEvent_OnKey(keyState);
     }
 
     switch (action->type) {

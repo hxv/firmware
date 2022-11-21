@@ -26,6 +26,15 @@ void MacroEvent_OnInit()
     }
 }
 
+void MacroEvent_OnKey(key_state_t *keyState)
+{
+    const char* s = "$onKey";
+    uint8_t idx = FindMacroIndexByName(s, s + strlen(s), false);
+    if (idx != 255) {
+        previousEventMacroSlot = Macros_StartMacro(idx, keyState, 255, true);
+    }
+}
+
 void processOnKeymapChange(const char* curAbbrev, const char* curAbbrevEnd)
 {
     for (int i = 0; i < AllMacrosCount; i++) {
