@@ -1428,7 +1428,7 @@ static bool processIfKeymapCommand(bool negate, const char* arg1, const char *ar
 static bool processIfLayerCommand(bool negate, const char* arg1, const char *argEnd)
 {
     uint8_t queryLayerIdx = Macros_ParseLayerId(arg1, argEnd);
-    return (queryLayerIdx == Macros_ActiveLayer) != negate;
+    return (queryLayerIdx == ActiveLayer) != negate;
 }
 
 static macro_result_t processBreakCommand()
