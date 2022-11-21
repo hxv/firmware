@@ -1382,6 +1382,16 @@ static bool processIfReleasedCommand(bool negate)
    return (!currentMacroKeyIsActive()) != negate;
 }
 
+static bool processIfEqCommand(bool negate, const char* arg1, const char *argEnd)
+{
+    int32_t value = parseNUM(arg1, argEnd);
+    int32_t param = parseNUM(NextTok(arg1, argEnd), argEnd);
+
+    bool res = value == param;
+
+    return res != negate;
+}
+
 static bool processIfRegEqCommand(bool negate, const char* arg1, const char *argEnd)
 {
     uint8_t address = parseNUM(arg1, argEnd);
@@ -2427,6 +2437,20 @@ static macro_result_t processCommand(const char* cmd, const char* cmdEnd)
                 if (!processIfReleasedCommand(true) && !s->as.currentConditionPassed) {
                     return MacroResult_Finished;
                 }
+            }
+            else if (TokenMatches(cmd, cmdEnd, "ifEq")) {
+                if (!processIfEqCommand(false, arg1, cmdEnd) && !s->as.currentConditionPassed) {
+                    return MacroResult_Finished;
+                }
+                cmd = NextTok(arg1, cmdEnd); //shift by 2
+                arg1 = NextTok(cmd, cmdEnd);
+            }
+            else if (TokenMatches(cmd, cmdEnd, "ifNotEq")) {
+                if (!processIfEqCommand(true, arg1, cmdEnd) && !s->as.currentConditionPassed) {
+                    return MacroResult_Finished;
+                }
+                cmd = NextTok(arg1, cmdEnd); //shift by 2
+                arg1 = NextTok(cmd, cmdEnd);
             }
             else if (TokenMatches(cmd, cmdEnd, "ifRegEq")) {
                 if (!processIfRegEqCommand(false, arg1, cmdEnd) && !s->as.currentConditionPassed) {
